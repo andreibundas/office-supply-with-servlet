@@ -2,6 +2,7 @@ package org.fasttrackit.persistence;
 
 import org.fasttrackit.config.DatabaseConfiguration;
 import org.fasttrackit.transfer.CreateSupplyRequest;
+import org.fasttrackit.transfer.UpdateSupplyRequest;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -18,22 +19,34 @@ public class SupplyDemandRepository {
         //try with resources
         try (PreparedStatement preparedStatement = DatabaseConfiguration.getConnection().prepareStatement(sql)) {
             preparedStatement.setString(1, request.getDepartment());
-            preparedStatement.setString( 2, request.getSupplyName());
-            preparedStatement.setDouble( 3, request.getQuantityPcsPckgs());
-            preparedStatement.setDouble( 4, request.getSupplyUnitPrice());
-            preparedStatement.setDouble( 5, request.getValueRON());
+            preparedStatement.setString(2, request.getSupplyName());
+            preparedStatement.setDouble(3, request.getQuantityPcsPckgs());
+            preparedStatement.setDouble(4, request.getSupplyUnitPrice());
+            preparedStatement.setDouble(5, request.getValueRON());
             preparedStatement.setDate(6, Date.valueOf(request.getDeliveryDate()));
 
             preparedStatement.executeUpdate();
         }
-        }
+    }
+
     public void deleteSupplyDemand(long id) throws SQLException {
         String sql = "DELETE FROM supplies WHERE id = ? ";
 
-        try(PreparedStatement preparedStatement = DatabaseConfiguration.getConnection().prepareStatement(sql)){
+        try (PreparedStatement preparedStatement = DatabaseConfiguration.getConnection().prepareStatement(sql)) {
             preparedStatement.setLong(1, id);
 
             preparedStatement.executeUpdate();
+        }
+    }
+
+    public void updateSupplyDemand(UpdateSupplyRequest request, long id) throws SQLException {
+        String sql = " UPDATE supplies SET completed = ? WHERE id = ? ";
+        try (PreparedStatement preparedStatement = DatabaseConfiguration.getConnection().prepareStatement(sql)) {
+            preparedStatement.setBoolean(1, request.isCompleted());
+            preparedStatement.setLong(2, id);
+
+            preparedStatement.executeUpdate();
+
         }
     }
 }

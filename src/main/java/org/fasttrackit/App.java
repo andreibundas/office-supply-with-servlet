@@ -2,6 +2,7 @@ package org.fasttrackit;
 
 import org.fasttrackit.persistence.SupplyDemandRepository;
 import org.fasttrackit.transfer.CreateSupplyRequest;
+import org.fasttrackit.transfer.UpdateSupplyRequest;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -25,7 +26,16 @@ public class App
 //
 //        supplyDemandRepository.createSupplyDemand(request);
 
-        supplyDemandRepository.deleteSupplyDemand(18);
+//        supplyDemandRepository.deleteSupplyDemand(18);
+
+
+        //update
+        UpdateSupplyRequest request = new UpdateSupplyRequest();
+        request.setCompleted(true);
+
+        supplyDemandRepository.updateSupplyDemand(request, 17);
+
+
 
     }
 }
