@@ -16,15 +16,16 @@ public class App
         System.out.println( "Hello World!" );
 
         SupplyDemandRepository supplyDemandRepository = new SupplyDemandRepository();
-        CreateSupplyRequest request = new CreateSupplyRequest();
-        request.setDepartment("Logistic");
-        request.setSupplyName("paper");
-        request.setQuantityPcsPckgs(3);
-        request.setValueRON(30);
-        request.setDeliveryDate(LocalDate.now().plusWeeks(2));
+//        CreateSupplyRequest request = new CreateSupplyRequest();
+//        request.setDepartment("Logistic");
+//        request.setSupplyName("paper");
+//        request.setQuantityPcsPckgs(3);
+//        request.setValueRON(30);
+//        request.setDeliveryDate(LocalDate.now().plusWeeks(2));
+//
+//        supplyDemandRepository.createSupplyDemand(request);
 
-        supplyDemandRepository.createSupplyDemand(request);
-
+        supplyDemandRepository.deleteSupplyDemand(18);
 
     }
 }

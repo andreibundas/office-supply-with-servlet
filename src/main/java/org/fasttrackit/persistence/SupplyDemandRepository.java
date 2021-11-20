@@ -1,5 +1,6 @@
 package org.fasttrackit.persistence;
 
+import org.fasttrackit.config.DatabaseConfiguration;
 import org.fasttrackit.transfer.CreateSupplyRequest;
 
 import java.sql.Date;
@@ -15,7 +16,7 @@ public class SupplyDemandRepository {
                 " value_RON, delivery_date) VALUES (?, ?, ?, ?, ?, ?) ";
 
         //try with resources
-        try (PreparedStatement preparedStatement = org.fasttrackit.config.DatabaseConfiguration.getConnection().prepareStatement(sql)) {
+        try (PreparedStatement preparedStatement = DatabaseConfiguration.getConnection().prepareStatement(sql)) {
             preparedStatement.setString(1, request.getDepartment());
             preparedStatement.setString( 2, request.getSupplyName());
             preparedStatement.setDouble( 3, request.getQuantityPcsPckgs());
@@ -25,7 +26,14 @@ public class SupplyDemandRepository {
 
             preparedStatement.executeUpdate();
         }
+        }
+    public void deleteSupplyDemand(long id) throws SQLException {
+        String sql = "DELETE FROM supplies WHERE id = ? ";
 
+        try(PreparedStatement preparedStatement = DatabaseConfiguration.getConnection().prepareStatement(sql)){
+            preparedStatement.setLong(1, id);
 
+            preparedStatement.executeUpdate();
+        }
     }
 }
