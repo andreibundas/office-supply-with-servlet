@@ -30,12 +30,14 @@ public class App
 
 
         //update
-        UpdateSupplyRequest request = new UpdateSupplyRequest();
-        request.setCompleted(true);
+//        UpdateSupplyRequest request = new UpdateSupplyRequest();
+//        request.setCompleted(true);
+//
+//        supplyDemandRepository.updateSupplyDemand(request, 17);
 
-        supplyDemandRepository.updateSupplyDemand(request, 17);
+// get
 
-
+        System.out.println(supplyDemandRepository.getSupplyDemands());
 
     }
 }

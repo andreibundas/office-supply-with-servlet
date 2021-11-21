@@ -1,12 +1,13 @@
 package org.fasttrackit.persistence;
 
 import org.fasttrackit.config.DatabaseConfiguration;
+import org.fasttrackit.domain.OfficeSupply;
 import org.fasttrackit.transfer.CreateSupplyRequest;
 import org.fasttrackit.transfer.UpdateSupplyRequest;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 //DAO (Data Access Object)
 @SuppressWarnings("SqlNoDataSourceInspection")
@@ -46,7 +47,32 @@ public class SupplyDemandRepository {
             preparedStatement.setLong(2, id);
 
             preparedStatement.executeUpdate();
-
         }
+    }
+
+    public List<OfficeSupply> getSupplyDemands() throws SQLException {
+        String sql = "SELECT id, department, supplies, quantity_pcs_pckgs, quantity_unit_price," +
+                " value_RON, delivery_date, completed FROM supplies ";
+
+        List<OfficeSupply> officeSupplies = new ArrayList<>();
+        try(Statement statement = DatabaseConfiguration.getConnection().createStatement()) {
+
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            while (resultSet.next()){
+                OfficeSupply officeSupply = new OfficeSupply();
+                officeSupply.setId(resultSet.getLong("id"));
+                officeSupply.setDepartment(resultSet.getString("department"));
+                officeSupply.setSupplyName(resultSet.getString("supplies"));
+                officeSupply.setQuantityPcsPckgs(resultSet.getDouble("quantity_pcs_pckgs"));
+                officeSupply.setSupplyUnitPrice(resultSet.getDouble("quantity_unit_price"));
+                officeSupply.setValueRON(resultSet.getDouble("value_RON"));
+                officeSupply.setDeliveryDate(resultSet.getDate("delivery_date").toLocalDate());
+                officeSupply.setCompleted(resultSet.getBoolean("completed"));
+
+                officeSupplies.add(officeSupply);
+            }
+        }
+        return officeSupplies;
     }
 }
