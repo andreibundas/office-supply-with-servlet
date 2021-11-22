@@ -40,7 +40,7 @@ public class SupplyDemandRepository {
         }
     }
 
-    public void updateSupplyDemand(UpdateSupplyRequest request, long id) throws SQLException {
+    public void updateSupplyDemand(long id, UpdateSupplyRequest request) throws SQLException {
         String sql = " UPDATE supplies SET completed = ? WHERE id = ? ";
         try (PreparedStatement preparedStatement = DatabaseConfiguration.getConnection().prepareStatement(sql)) {
             preparedStatement.setBoolean(1, request.isCompleted());
