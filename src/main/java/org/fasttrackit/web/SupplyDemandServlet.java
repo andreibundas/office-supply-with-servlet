@@ -4,6 +4,7 @@ import org.fasttrackit.config.ObjectMapperConfiguration;
 import org.fasttrackit.domain.OfficeSupply;
 import org.fasttrackit.service.SupplyDemandService;
 import org.fasttrackit.transfer.CreateSupplyRequest;
+import org.fasttrackit.transfer.UpdateSupplyRequest;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -41,6 +42,21 @@ public class SupplyDemandServlet extends HttpServlet {
 
             ObjectMapperConfiguration.getObjectMapper().writeValue(resp.getWriter(), supplyDemands);
 
+        } catch (SQLException e) {
+            resp.sendError(500, e.getMessage());
+        }
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String idAsString = req.getParameter("id");
+
+
+        UpdateSupplyRequest updateSupplyRequest = ObjectMapperConfiguration.getObjectMapper()
+                .readValue(req.getReader(), UpdateSupplyRequest.class);
+
+        try {
+            supplyDemandService.updateSupplyDemand(Long.parseLong(idAsString), updateSupplyRequest);
         } catch (SQLException e) {
             resp.sendError(500, e.getMessage());
         }
