@@ -27,7 +27,7 @@ public class SupplyDemandService {
         supplyDemandRepository.updateSupplyDemand(id, request);
     }
 
-    public void deleteTask(long id) throws SQLException {
+    public void deleteSupplyDemand(long id) throws SQLException {
         System.out.println("Deleting supplyDemand with id " + id);
         supplyDemandRepository.deleteSupplyDemand(id);
     }

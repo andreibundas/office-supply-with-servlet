@@ -23,7 +23,6 @@ public class SupplyDemandServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-
         CreateSupplyRequest request = ObjectMapperConfiguration.getObjectMapper().readValue(req.getReader(), CreateSupplyRequest.class);
 
         try {
@@ -57,6 +56,16 @@ public class SupplyDemandServlet extends HttpServlet {
 
         try {
             supplyDemandService.updateSupplyDemand(Long.parseLong(idAsString), updateSupplyRequest);
+        } catch (SQLException e) {
+            resp.sendError(500, e.getMessage());
+        }
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String idAsString = req.getParameter("id");
+        try {
+            supplyDemandService.deleteSupplyDemand(Long.parseLong(idAsString));
         } catch (SQLException e) {
             resp.sendError(500, e.getMessage());
         }
