@@ -22,6 +22,7 @@ public class SupplyDemandServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        addCorsHeaders(resp);
 
         CreateSupplyRequest request = ObjectMapperConfiguration.getObjectMapper().readValue(req.getReader(), CreateSupplyRequest.class);
 
@@ -34,6 +35,8 @@ public class SupplyDemandServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        addCorsHeaders(resp);
+
         try {
             List<OfficeSupply> supplyDemands = supplyDemandService.getSupplyDemands();
 
@@ -48,6 +51,8 @@ public class SupplyDemandServlet extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        addCorsHeaders(resp);
+
         String idAsString = req.getParameter("id");
 
 
@@ -63,11 +68,25 @@ public class SupplyDemandServlet extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        addCorsHeaders(resp);
+
         String idAsString = req.getParameter("id");
         try {
             supplyDemandService.deleteSupplyDemand(Long.parseLong(idAsString));
         } catch (SQLException e) {
             resp.sendError(500, e.getMessage());
         }
+    }
+
+    @Override
+    protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        addCorsHeaders(resp);
+    }
+
+    private void addCorsHeaders(HttpServletResponse response) {
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
+        response.addHeader("Access-Control-Allow-Headers", "content-type");
+
     }
 }
